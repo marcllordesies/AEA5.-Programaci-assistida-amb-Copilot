@@ -1,0 +1,38 @@
+name: Agente IA - Ejecutar en Issue
+
+on:
+  workflow_dispatch: # Permite ejecutar el agente manualmente desde el navegador
+    inputs:
+      issue_number:
+        description: 'Número del issue con la etiqueta enhancement'
+        required: true
+        type: string
+
+jobs:
+  ejecutar-agente:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Procesar Issue específico
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = parseInt('${{ github.event.inputs.issue_number }}');
+            
+            // 1. El agente escribe un comentario en el issue confirmando que toma la tarea enhancement
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: "🤖 **Agente de IA Activado.**\n\nHe sido asignado a este issue de tipo **enhancement**. Analizando los requerimientos para proponer la mejora..."
+            });
+
+            // 2. Te asigna el issue a ti automáticamente en el panel de control
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              assignees: [context.actor]
+            });
