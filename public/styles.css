@@ -30,6 +30,17 @@ main {
   padding: 2rem;
 }
 
+.site-footer {
+  text-align: center;
+  padding: 1rem 2rem 2rem;
+}
+
+.site-footer a {
+  color: var(--color-principal);
+  text-decoration: none;
+  font-weight: 600;
+}
+
 .graella {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
