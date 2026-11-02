@@ -30,3 +30,18 @@ test('GET /api/productes/:id retorna 404 si no existeix', async () => {
   const resposta = await fetch(`${base}/api/productes/999`);
   assert.equal(resposta.status, 404);
 });
+
+test('GET / mostra un peu de pàgina centrat amb enllaç de contacte', async () => {
+  const resposta = await fetch(base);
+  assert.equal(resposta.status, 200);
+  const html = await resposta.text();
+  assert.match(html, /<footer>/);
+  assert.match(html, /<a href="mailto:botiga@copilot\.cat">Contacta'ns<\/a>/);
+});
+
+test('GET /styles.css centra el peu de pàgina', async () => {
+  const resposta = await fetch(`${base}/styles.css`);
+  assert.equal(resposta.status, 200);
+  const css = await resposta.text();
+  assert.match(css, /footer\s*\{[^}]*text-align:\s*center;/s);
+});
