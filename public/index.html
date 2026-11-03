@@ -9,13 +9,16 @@
 <body>
   <header>
     <h1>Botiga Copilot</h1>
-    <label for="filtre-categoria">Categoria</label>
-    <select id="filtre-categoria">
-      <option value="">Totes</option>
-      <option value="roba">Roba</option>
-      <option value="casa">Casa</option>
-      <option value="papereria">Papereria</option>
-    </select>
+    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal">Menú</button>
+    <nav id="menu-principal" class="menu-principal" aria-label="Menú principal">
+      <label for="filtre-categoria">Categoria</label>
+      <select id="filtre-categoria">
+        <option value="">Totes</option>
+        <option value="roba">Roba</option>
+        <option value="casa">Casa</option>
+        <option value="papereria">Papereria</option>
+      </select>
+    </nav>
   </header>
 
   <main>
