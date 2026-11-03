@@ -55,6 +55,27 @@ test('GET /api/productes retorna la mitjana correcta per a un producte amb resse
   assert.equal(producteSenseRessenyes.mitjana_puntuacio, 0);
 });
 
+test('GET /api/categories retorna totes les categories amb el nombre de productes', async () => {
+  const resposta = await fetch(`${base}/api/categories`);
+  assert.equal(resposta.status, 200);
+
+  const categories = await resposta.json();
+  assert.deepEqual(categories, [
+    { categoria: 'casa', total_productes: 2 },
+    { categoria: 'papereria', total_productes: 2 },
+    { categoria: 'roba', total_productes: 2 },
+  ]);
+});
+
+test('GET /api/categories inclou recompte numèric per a cada categoria', async () => {
+  const resposta = await fetch(`${base}/api/categories`);
+  assert.equal(resposta.status, 200);
+
+  const categories = await resposta.json();
+  assert.ok(categories.every((c) => typeof c.categoria === 'string'));
+  assert.ok(categories.every((c) => Number.isInteger(c.total_productes) && c.total_productes > 0));
+});
+
 test('GET /api/productes/:id retorna 404 si no existeix', async () => {
   const resposta = await fetch(`${base}/api/productes/999`);
   assert.equal(resposta.status, 404);
