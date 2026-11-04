@@ -80,3 +80,21 @@ test('GET /api/productes/:id retorna 404 si no existeix', async () => {
   const resposta = await fetch(`${base}/api/productes/999`);
   assert.equal(resposta.status, 404);
 });
+
+test('POST /api/carret/total retorna subtotal, enviament i total', async () => {
+  const resposta = await fetch(`${base}/api/carret/total`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: [{ preu: 20, quantitat: 2, pes: 0.6 }],
+      descompte: 10,
+    }),
+  });
+
+  assert.equal(resposta.status, 200);
+  assert.deepEqual(await resposta.json(), {
+    subtotal: 36,
+    enviament: 5.9,
+    total: 41.9,
+  });
+});
